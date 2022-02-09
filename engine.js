@@ -104,13 +104,15 @@ _cookiesTools = {
           }
 
           var expires = +cookieParts[4];
+          var name = cookieParts[5];
+          var secure = eval(cookieParts[3].toLowerCase()) || /(^__Host|^__Secure)/.test(name)
           var cookie = {
             domain: cookieParts[0],
-            expires: expires > 0 ? expires : - 1,
+            expires: expires > 0 ? expires : -1,
             httpOnly: false,
-            name: cookieParts[5],
+            name: name,
             path: cookieParts[2],
-            secure: eval(cookieParts[3].toLowerCase()),
+            secure: secure,
             session: expires <= 0,
             value: cookieParts[6],
           };
