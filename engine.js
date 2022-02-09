@@ -54,8 +54,8 @@ _cookiesTools = {
     cookies.forEach(function (el) {
       var cookie = {
         domain: el.domain,
-        expirationDate: el.expires,
-        hostOnly: false,
+        expirationDate: el.expires > 0 ? el.expires : 0,
+        hostOnly: el.domain[0] !== '.',
         httpOnly: el.httpOnly,
         name: el.name,
         path: el.path,
