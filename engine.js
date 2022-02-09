@@ -29,13 +29,13 @@ _cookiesTools = {
           result +=
             cookie.domain +
             '\t' +
-            (!cookie.hostOnly).toString().toUpperCase() +
+            (cookie.domain[0] !== '.').toString().toUpperCase() +
             '\t' +
             cookie.path +
             '\t' +
             cookie.secure.toString().toUpperCase() +
             '\t' +
-            (cookie.expires ? Math.round(cookie.expires) : '0') +
+            (cookie.expires < 0 ? '0' : Math.round(cookie.expires)) +
             '\t' +
             cookie.name +
             '\t' +
@@ -103,14 +103,15 @@ _cookiesTools = {
             fail('incorrect netscape format, line #' + (i + 1));
           }
 
+          var expires = +cookieParts[4];
           var cookie = {
             domain: cookieParts[0],
-            expires: +cookieParts[4],
-            httpOnly: Boolean(cookieParts[1].toLowerCase()),
+            expires: expires > 0 ? expires : - 1,
+            httpOnly: false,
             name: cookieParts[5],
             path: cookieParts[2],
-            secure: Boolean(cookieParts[3].toLowerCase()),
-            session: cookieParts[4] == -1,
+            secure: eval(cookieParts[3].toLowerCase()),
+            session: expires <= 0,
             value: cookieParts[6],
           };
 
