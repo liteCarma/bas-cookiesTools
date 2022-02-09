@@ -206,12 +206,12 @@ _cookiesTools = {
   },
 
   createBasCookie: function (data) {
-    var cookie =  {
+    var cookie = {
       domain: data.domain,
-      expires: data.expirationDate,
+      expires: data.session ? -1 : data.expirationDate,
       httpOnly: data.httpOnly || false,
       name: data.name,
-      path: data.path || '\/',
+      path: data.path || '/',
       priority: 'Medium',
       sameParty: false,
       secure: data.secure || false,
