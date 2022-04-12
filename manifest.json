@@ -15,7 +15,7 @@
             "is_element": false,
             "name": "cookiesTools__importFromNetscapeCookies",
             "select": "cookiesTools__importFromNetscapeCookies_select.js",
-            "template": ""
+            "template": "{{importCookies}}"
         },
         {
             "code": [
@@ -32,7 +32,7 @@
             "is_element": false,
             "name": "cookiesTools__importFromJ2TeamCookies",
             "select": "cookiesTools__importFromJ2TeamCookies_select.js",
-            "template": ""
+            "template": "{{importCookies}}"
         },
         {
             "code": [
@@ -49,7 +49,7 @@
             "is_element": false,
             "name": "cookiesTools__importFromEditThisCookies",
             "select": "cookiesTools__importFromEditThisCookies_select.js",
-            "template": ""
+            "template": "{{importCookies}}"
         },
         {
             "code": [
@@ -66,7 +66,7 @@
             "is_element": false,
             "name": "cookiesTools__exportToNetscapeCookies",
             "select": "cookiesTools__exportToNetscapeCookies_select.js",
-            "template": ""
+            "template": "{{basCookies}}"
         },
         {
             "code": [
@@ -83,7 +83,7 @@
             "is_element": false,
             "name": "cookiesTools__exportToJ2TeamCookies",
             "select": "cookiesTools__exportToJ2TeamCookies_select.js",
-            "template": ""
+            "template": "{{basCookies}}"
         },
         {
             "code": [
@@ -100,7 +100,7 @@
             "is_element": false,
             "name": "cookiesTools__exportToEditThisCookies",
             "select": "cookiesTools__exportToEditThisCookies_select.js",
-            "template": ""
+            "template": "{{basCookies}}"
         },
         {
           "code": [
@@ -117,7 +117,7 @@
           "is_element": false,
           "name": "cookiesTools__concatCookies",
           "select": "cookiesTools__concatCookies_select.js",
-          "template": ""
+          "template": "{{cookies1}}-{{cookies2}}"
       },
       {
           "code": [
@@ -134,7 +134,7 @@
           "is_element": false,
           "name": "cookiesTools__getCookieValue",
           "select": "cookiesTools__getCookieValue_select.js",
-          "template": ""
+          "template": "{{basCookies}}"
       },
       {
           "code": [
@@ -151,7 +151,7 @@
           "is_element": false,
           "name": "cookiesTools__pushCookie",
           "select": "cookiesTools__pushCookie_select.js",
-          "template": ""
+          "template": "{{basCookies}}"
       }
     ],
     "api_version": 1,
