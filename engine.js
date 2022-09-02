@@ -24,7 +24,7 @@ _cookiesTools = {
         for (var i = 0; i < cookies.length; i++) {
           var cookie = cookies[i];
           if (this.isGoogleSyncCookies(cookie)) {
-            continue
+            continue;
           }
           result +=
             cookie.domain +
@@ -81,16 +81,14 @@ _cookiesTools = {
         break;
       }
       case 'jsonJ2': {
-        result = this.importCookiesFromJson(
-          this.parseBASCookies(cookies)
-        );
+        result = this.importCookiesFromJson(this.parseBASCookies(cookies));
         break;
       }
       case 'netscape': {
         cookies = cookies.split(/\r?\n/);
-        cookies = cookies.filter(function(row) {
-          return row !== ''
-        })
+        cookies = cookies.filter(function (row) {
+          return row !== '';
+        });
 
         for (var i = 0; i < cookies.length; i++) {
           var cookieString = cookies[i];
@@ -105,7 +103,9 @@ _cookiesTools = {
 
           var expires = +cookieParts[4];
           var name = cookieParts[5];
-          var secure = eval(cookieParts[3].toLowerCase()) || /(^__Host|^__Secure)/.test(name)
+          var secure =
+            eval(cookieParts[3].toLowerCase()) ||
+            /(^__Host|^__Secure)/.test(name);
           var cookie = {
             domain: cookieParts[0],
             expires: expires > 0 ? expires : -1,
@@ -124,7 +124,6 @@ _cookiesTools = {
         break;
       }
     }
-    
 
     return this.stringifyBASCookies(result);
   },
@@ -136,7 +135,6 @@ _cookiesTools = {
       if (!self.isGoogleSyncCookies(cookie)) {
         result.push(self.createBasCookie(cookie));
       }
-      
     });
 
     return result;
@@ -144,7 +142,7 @@ _cookiesTools = {
 
   pushCoookie: function (cookies, name, value, domain, secure, date) {
     var cookies = this.parseBASCookies(cookies).filter(function (cookie) {
-      return cookie.name !== name && cookie.domain !== domain;
+      return cookie.name !== name || cookie.domain !== domain;
     });
 
     cookies.push(
@@ -225,12 +223,15 @@ _cookiesTools = {
     };
 
     if (data.secure) {
-      cookie.sameSite = "None"
+      cookie.sameSite = 'None';
     }
     return cookie;
   },
 
   isGoogleSyncCookies: function (cookie) {
-    return cookie.domain.indexOf('google') > -1 && (cookie.name === 'ACCOUNT_CHOOSER' || cookie.name === 'LSID')
+    return (
+      cookie.domain.indexOf('google') > -1 &&
+      (cookie.name === 'ACCOUNT_CHOOSER' || cookie.name === 'LSID')
+    );
   },
 };
