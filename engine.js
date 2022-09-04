@@ -230,8 +230,7 @@ _cookiesTools = {
 
   isGoogleSyncCookies: function (cookie) {
     return (
-      cookie.domain.indexOf('google') > -1 &&
-      (cookie.name === 'ACCOUNT_CHOOSER' || cookie.name === 'LSID')
+      cookie.domain.indexOf('google') > -1 && cookie.name === 'ACCOUNT_CHOOSER' // || cookie.name === 'LSID'
     );
   },
 };
