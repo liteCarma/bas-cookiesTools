@@ -73,7 +73,8 @@ _cookiesTools = {
     return resultCookies;
   },
 
-  importCookies: function (cookies, format) {
+  importCookies: function (cookies, format, debug) {
+    debug = debug ? debug.toString() === 'true' : false;
     var result = [];
     switch (format) {
       case 'jsonETC': {
@@ -97,8 +98,11 @@ _cookiesTools = {
           }
 
           var cookieParts = cookieString.split(/\t/);
-          if (cookieParts.length <= 1) {
-            fail('incorrect netscape format, line #' + (i + 1));
+          if (cookieParts.length !== 7) {
+            if (debug) {
+              ScriptWorker.Info('incorrect netscape format, line #' + (i + 1));
+            }
+            continue;
           }
 
           var expires = +cookieParts[4];
