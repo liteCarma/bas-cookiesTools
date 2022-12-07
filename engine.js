@@ -1,6 +1,7 @@
 _cookiesTools = {
   exportCookies: function (cookies, format, url) {
     cookies = JSON.parse(cookies).cookies;
+    cookies = this.fixCookies(cookies);
     var result = '';
     switch (format) {
       case 'jsonETC': {
@@ -129,7 +130,7 @@ _cookiesTools = {
       }
     }
 
-    return this.stringifyBASCookies(result);
+    return this.stringifyBASCookies(this.fixCookies(result));
   },
 
   importCookiesFromJson: function (cookies) {
@@ -231,7 +232,18 @@ _cookiesTools = {
     }
     return cookie;
   },
-
+  fixCookies: function (basCookies) {
+    return basCookies
+      .map(function (coo) {
+        if (coo.expires < Date.now() || isNaN(new Date(coo.expires))) {
+          coo.expires = new Date(2050, 1, 1).getTime();
+        }
+        return coo;
+      })
+      .filter(function (coo) {
+        return !/^__Host/i.test(coo.name);
+      });
+  },
   isGoogleSyncCookies: function (cookie) {
     return (
       cookie.domain.indexOf('google') > -1 && cookie.name === 'ACCOUNT_CHOOSER' // || cookie.name === 'LSID'
