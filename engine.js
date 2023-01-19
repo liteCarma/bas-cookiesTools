@@ -177,12 +177,12 @@ _cookiesTools = {
     var currentIndex = 0;
     var pushCookie = function (cookies) {
       cookies.forEach(function (cookie) {
-        var hash = cookie.name + +'_' + cookie.domain;
+        var hash = cookie.name + '_' + cookie.domain + '_' + cookie.value;
         var index = indexes[hash];
-        if (!index) {
+        if (index == undefined) {
           concatCookies.push(cookie);
           indexes[hash] = currentIndex;
-        } else {
+        } else if (concatCookies[index] !== undefined) {
           concatCookies[index].value = cookie.value;
           concatCookies[index].secure = cookie.secure;
           concatCookies[index].expires = cookie.expires;
