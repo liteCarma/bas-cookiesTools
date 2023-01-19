@@ -108,13 +108,11 @@ _cookiesTools = {
 
           var expires = +cookieParts[4];
           var name = cookieParts[5];
-          var secure =
-            eval(cookieParts[3].toLowerCase()) ||
-            /(^__Host|^__Secure)/.test(name);
+          var secure = cookieParts[3].toLowerCase() === 'true' ||  /(^__Host|^__Secure)/.test(name);
           var cookie = {
             domain: cookieParts[0],
             expires: expires > 0 ? expires : -1,
-            httpOnly: false,
+            httpOnly: cookieParts[1].toLowerCase() === 'true',
             name: name,
             path: cookieParts[2],
             secure: secure,
@@ -235,7 +233,8 @@ _cookiesTools = {
   fixCookies: function (basCookies) {
     return basCookies
       .map(function (coo) {
-        if (coo.expires < Date.now() || isNaN(new Date(coo.expires))) {
+        var time = coo.expires.toString().length === 10 ? coo.expires * 1000 : coo.expires
+        if (time < Date.now() || isNaN(new Date(time))) {
           coo.expires = new Date(2050, 1, 1).getTime();
         }
         return coo;
