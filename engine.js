@@ -108,11 +108,13 @@ _cookiesTools = {
 
           var expires = +cookieParts[4];
           var name = cookieParts[5];
-          var secure = cookieParts[3].toLowerCase() === 'true' ||  /(^__Host|^__Secure)/.test(name);
+          var secure =
+            eval(cookieParts[3].toLowerCase()) ||
+            /(^__Host|^__Secure)/.test(name);
           var cookie = {
             domain: cookieParts[0],
             expires: expires > 0 ? expires : -1,
-            httpOnly: cookieParts[1].toLowerCase() === 'true',
+            httpOnly: false,
             name: name,
             path: cookieParts[2],
             secure: secure,
@@ -177,12 +179,12 @@ _cookiesTools = {
     var currentIndex = 0;
     var pushCookie = function (cookies) {
       cookies.forEach(function (cookie) {
-        var hash = cookie.name + '_' + cookie.domain + '_' + cookie.value;
+        var hash = cookie.name + +'_' + cookie.domain;
         var index = indexes[hash];
-        if (index == undefined) {
+        if (!index) {
           concatCookies.push(cookie);
           indexes[hash] = currentIndex;
-        } else if (concatCookies[index] !== undefined) {
+        } else {
           concatCookies[index].value = cookie.value;
           concatCookies[index].secure = cookie.secure;
           concatCookies[index].expires = cookie.expires;
@@ -233,15 +235,11 @@ _cookiesTools = {
   fixCookies: function (basCookies) {
     return basCookies
       .map(function (coo) {
-        var time = coo.expires.toString().length === 10 ? coo.expires * 1000 : coo.expires
-        if (time < Date.now() || isNaN(new Date(time))) {
+        if (coo.expires < Date.now() || isNaN(new Date(coo.expires))) {
           coo.expires = new Date(2050, 1, 1).getTime();
         }
         return coo;
       })
-      .filter(function (coo) {
-        return !/^__Host/i.test(coo.name);
-      });
   },
   isGoogleSyncCookies: function (cookie) {
     return (
