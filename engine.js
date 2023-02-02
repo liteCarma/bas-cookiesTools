@@ -1,7 +1,7 @@
 _cookiesTools = {
   exportCookies: function (cookies, format, url) {
     cookies = JSON.parse(cookies).cookies;
-    cookies = this.fixCookies(cookies);
+    cookies = this.fixExpiresCookies(cookies);
     var result = '';
     switch (format) {
       case 'jsonETC': {
@@ -36,7 +36,7 @@ _cookiesTools = {
             '\t' +
             cookie.secure.toString().toUpperCase() +
             '\t' +
-            (cookie.expires < 0 ? '0' : Math.round(cookie.expires)) +
+            cookie.expires +
             '\t' +
             cookie.name +
             '\t' +
@@ -130,7 +130,7 @@ _cookiesTools = {
       }
     }
 
-    return this.stringifyBASCookies(this.fixCookies(result));
+    return this.stringifyBASCookies(this.fixExpiresCookies(result));
   },
 
   importCookiesFromJson: function (cookies) {
@@ -232,11 +232,20 @@ _cookiesTools = {
     }
     return cookie;
   },
-  fixCookies: function (basCookies) {
+  fixExpiresCookies: function (basCookies) {
     return basCookies
       .map(function (coo) {
-        if (coo.expires < Date.now() || isNaN(new Date(coo.expires))) {
-          coo.expires = new Date(2050, 1, 1).getTime();
+        var expires = coo.expires
+        if (expires.toString().length === 10 || expires.toString().indexOf('.') === 10) {
+          expires = expires * 1000
+        }
+        var expires = parseInt(expires)
+
+        var isSession = coo.session || expires <= 0
+        if (isSession) {
+          coo.expires = 0
+        } else if(expires < Date.now() || isNaN(expires)) {
+          coo.expires = new Date(2030, 1, 1).getTime();
         }
         return coo;
       })
