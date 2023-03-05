@@ -178,18 +178,18 @@ _cookiesTools = {
     var indexes = {};
     var currentIndex = 0;
     var pushCookie = function (cookies) {
+      log('cookies: ' + cookies.length)
       cookies.forEach(function (cookie) {
         var hash = cookie.name + +'_' + cookie.domain;
         var index = indexes[hash];
-        if (!index) {
+        if (!index) { 
           concatCookies.push(cookie);
-          indexes[hash] = currentIndex;
+          indexes[hash] = currentIndex++;
         } else {
           concatCookies[index].value = cookie.value;
           concatCookies[index].secure = cookie.secure;
           concatCookies[index].expires = cookie.expires;
         }
-        currentIndex++;
       });
     };
 
