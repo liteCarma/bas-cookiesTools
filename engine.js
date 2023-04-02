@@ -245,7 +245,7 @@ _cookiesTools = {
         if (isSession) {
           coo.expires = 0
         } else if(expires < Date.now() || isNaN(expires)) {
-          coo.expires = new Date(2030, 1, 1).getTime();
+          coo.expires = new Date(2030, 1, 1).getTime() / 1000;
         }
         return coo;
       })
