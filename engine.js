@@ -132,6 +132,7 @@ _cookiesTools = {
 
     result = result.map(function (coo) {
       var expires = coo.expires
+
       if (expires.toString().length === 10 || expires.toString().indexOf('.') === 10) {
         expires = expires * 1000
       }
@@ -189,7 +190,6 @@ _cookiesTools = {
     var indexes = {};
     var currentIndex = 0;
     var pushCookie = function (cookies) {
-      log('cookies: ' + cookies.length)
       cookies.forEach(function (cookie) {
         var hash = cookie.name + +'_' + cookie.domain;
         var index = indexes[hash];
@@ -221,7 +221,7 @@ _cookiesTools = {
   createBasCookie: function (data) {
     var cookie = {
       domain: data.domain,
-      expires: data.session ? -1 : data.expirationDate,
+      expires: data.session ? -1 : (data.expirationDate || data.expires || -1),
       httpOnly: data.httpOnly || false,
       name: data.name,
       path: data.path || '/',
