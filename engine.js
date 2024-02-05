@@ -1,6 +1,6 @@
 _cookiesTools = {
   exportCookies: function (cookies, format, url) {
-    cookies = JSON.parse(cookies).cookies;
+    cookies = this.fixCookiesWithPrefix(JSON.parse(cookies).cookies);
     var result = '';
     switch (format) {
       case 'jsonETC': {
@@ -146,7 +146,7 @@ _cookiesTools = {
       return coo;
     })
 
-    return this.stringifyBASCookies(result);
+    return this.stringifyBASCookies(this.fixCookiesWithPrefix(result));
   },
   importCookiesFromJson: function (cookies) {
     var result = [];
@@ -245,4 +245,12 @@ _cookiesTools = {
       cookie.domain.indexOf('google') > -1 && cookie.name === 'ACCOUNT_CHOOSER' // || cookie.name === 'LSID'
     );
   },
+  fixCookiesWithPrefix: function (cookies) {
+    return cookies.map(function(el) {
+      if (/(^__Host|^__Secure)/.test(el.name)) {
+          el.domain = el.domain[0] === '.' ? el.domain.slice(1) : el.domain
+      }
+      return el
+    })
+  }
 };
