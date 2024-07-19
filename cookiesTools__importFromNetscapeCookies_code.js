@@ -1,2 +1,2 @@
-<%= variable %> = _cookiesTools.importCookies(<%= importCookies %>, 'netscape', <%= debug %>)
+<%= variable %> = _cookiesTools.importCookies(<%= importCookies %>, 'netscape', <%= debug %>, <%= throwError %>)
 
